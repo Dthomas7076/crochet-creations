@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shop | Crochet Creations</title>
+    <style>
+      :root {
+        --sunset-orange: #f39a6b;
+        --sunset-orange-deep: #e8774d;
+        --blue: #5d8bb4;
+        --blue-deep: #3d6d99;
+        --beige: #f4e7d3;
+        --beige-deep: #ddd0b8;
+        --text-dark: #2d2a2a;
+        --white: #ffffff;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(180deg, var(--beige) 0%, #f8f2ea 100%);
+        color: var(--text-dark);
+      }
+
+      a { text-decoration: none; color: inherit; }
+
+      .container {
+        width: min(1100px, 90%);
+        margin: 0 auto;
+      }
+
+      header {
+        background: rgba(255, 255, 255, 0.45);
+        border-bottom: 1px solid rgba(93, 139, 180, 0.2);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        color: var(--blue-deep);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 28px;
+        font-weight: 600;
+      }
+
+      .cta {
+        background: var(--sunset-orange);
+        color: var(--white);
+        padding: 12px 24px;
+        border-radius: 999px;
+        font-weight: 700;
+      }
+
+      .shop-page {
+        padding: 60px 0 80px;
+      }
+
+      .page-header {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+
+      .page-header h1 {
+        margin: 0 0 10px;
+        font-size: clamp(2.5rem, 4vw, 4rem);
+        color: var(--blue-deep);
+      }
+
+      .page-header p {
+        margin: 0;
+        color: rgba(45, 42, 42, 0.75);
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(220px, 1fr));
+        gap: 24px;
+      }
+
+      .product-card {
+        background: rgba(255, 255, 255, 0.75);
+        border: 1px solid rgba(93, 139, 180, 0.12);
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 14px 30px rgba(61, 109, 153, 0.08);
+      }
+
+      .product-card img {
+        display: block;
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+      }
+
+      .cart-pill {
+        background: rgba(243, 154, 107, 0.2);
+        border: 1px solid rgba(232, 119, 77, 0.3);
+        color: var(--blue-deep);
+        border-radius: 999px;
+        padding: 8px 14px;
+        font-weight: 700;
+      }
+
+      .product-info {
+        padding: 18px 18px 22px;
+      }
+
+      .product-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
+      .product-row h3 {
+        margin: 0;
+        color: var(--blue-deep);
+      }
+
+      .price {
+        font-weight: 800;
+        color: var(--sunset-orange-deep);
+      }
+
+      .product-card p {
+        margin: 0 0 18px;
+        line-height: 1.6;
+        color: rgba(45, 42, 42, 0.72);
+      }
+
+      .shop-btn {
+        display: inline-block;
+        background: var(--blue);
+        color: var(--white);
+        border-radius: 999px;
+        padding: 10px 18px;
+        font-weight: 700;
+      }
+
+      .floating-cart {
+        position: fixed;
+        right: 22px;
+        bottom: 22px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 68px;
+        height: 68px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--sunset-orange), var(--sunset-orange-deep));
+        color: var(--white);
+        box-shadow: 0 18px 32px rgba(232, 119, 77, 0.28);
+        text-decoration: none;
+        z-index: 30;
+        border: none;
+        cursor: pointer;
+      }
+
+      .floating-cart-icon {
+        font-size: 1.7rem;
+        line-height: 1;
+      }
+
+      .floating-cart-count {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        min-width: 24px;
+        height: 24px;
+        padding: 0 6px;
+        border-radius: 999px;
+        background: var(--blue-deep);
+        color: var(--white);
+        display: grid;
+        place-items: center;
+        font-size: 0.75rem;
+        font-weight: 800;
+      }
+
+      .floating-cart-panel {
+        position: fixed;
+        right: 22px;
+        bottom: 98px;
+        width: min(330px, calc(100vw - 28px));
+        background: rgba(255, 255, 255, 0.96);
+        border: 1px solid rgba(93, 139, 180, 0.15);
+        border-radius: 20px;
+        box-shadow: 0 18px 32px rgba(61, 109, 153, 0.18);
+        z-index: 31;
+        padding: 18px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(12px);
+        transition: all 0.2s ease;
+      }
+
+      .floating-cart-panel.visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .floating-cart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        color: var(--blue-deep);
+        font-weight: 800;
+      }
+
+      .floating-cart-close {
+        border: none;
+        background: transparent;
+        color: var(--blue-deep);
+        font-size: 1.4rem;
+        cursor: pointer;
+        line-height: 1;
+      }
+
+      .floating-cart-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(93, 139, 180, 0.1);
+      }
+
+      .floating-cart-item strong {
+        color: var(--sunset-orange-deep);
+      }
+
+      .floating-cart-item small {
+        display: block;
+        color: rgba(45, 42, 42, 0.7);
+      }
+
+      .floating-cart-empty {
+        color: rgba(45, 42, 42, 0.75);
+        margin: 0;
+      }
+
+      .floating-cart-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      .floating-cart-total {
+        font-weight: 800;
+        color: var(--blue-deep);
+      }
+
+      .floating-cart-go {
+        background: var(--sunset-orange);
+        color: var(--white);
+        border-radius: 999px;
+        padding: 10px 14px;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      footer {
+        text-align: center;
+        padding: 20px 0 60px;
+        color: rgba(45, 42, 42, 0.75);
+      }
+
+      @media (max-width: 800px) {
+        nav {
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .product-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <nav>
+          <div class="logo">CROCHET CREATIONS</div>
+          <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="index.html#contact">Contact</a>
+          </div>
+          <a href="cart.html" class="cta cart-pill">Cart <span id="cart-count">0</span></a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container shop-page">
+      <div class="page-header">
+        <h1>Shop</h1>
+        <p>Handmade crochet pieces made with love and color.</p>
+      </div>
+
+      <div class="product-grid">
+        <article class="product-card" data-id="handmade-animals" data-name="Handmade Animals" data-price="28" data-image="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=900&q=80">
+          <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=900&q=80" alt="Crocheted panda plush" />
+          <div class="product-info">
+            <div class="product-row">
+              <h3>Handmade Animals</h3>
+              <span class="price">$28</span>
+            </div>
+            <p>Soft, colorful crochet animals made to brighten a shelf or gift box.</p>
+            <a class="shop-btn" href="product.html?product=handmade-animals">View item</a>
+            <a class="shop-btn" href="cart.html" style="margin-left: 10px; background: var(--sunset-orange);" data-add-to-cart> Add to cart </a>
+          </div>
+        </article>
+
+        <article class="product-card" data-id="snowflake-coasters" data-name="Snowflake Coasters" data-price="18" data-image="https://images.unsplash.com/photo-1517486800579-88f7d53d9f1c?auto=format&fit=crop&w=900&q=80">
+          <img src="https://images.unsplash.com/photo-1517486800579-88f7d53d9f1c?auto=format&fit=crop&w=900&q=80" alt="Crocheted snowflake coaster" />
+          <div class="product-info">
+            <div class="product-row">
+              <h3>Snowflake Coasters</h3>
+              <span class="price">$18</span>
+            </div>
+            <p>Delicate coasters with winter-inspired texture for cozy spaces.</p>
+            <a class="shop-btn" href="product.html?product=snowflake-coasters">View item</a>
+            <a class="shop-btn" href="cart.html" style="margin-left: 10px; background: var(--sunset-orange);" data-add-to-cart> Add to cart </a>
+          </div>
+        </article>
+
+        <article class="product-card" data-id="handmade-bible-bags" data-name="Handmade Bible Bags" data-price="35" data-image="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=900&q=80">
+          <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=900&q=80" alt="Crocheted handbag" />
+          <div class="product-info">
+            <div class="product-row">
+              <h3>Handmade Bible Bags</h3>
+              <span class="price">$35</span>
+            </div>
+            <p>Beautifully crafted bags that carry a Bible with a handmade personal touch.</p>
+            <a class="shop-btn" href="product.html?product=handmade-bible-bags">View item</a>
+            <a class="shop-btn" href="cart.html" style="margin-left: 10px; background: var(--sunset-orange);" data-add-to-cart> Add to cart </a>
+          </div>
+        </article>
+
+        <article class="product-card" data-id="keychain-animals" data-name="Keychain Animals" data-price="16" data-image="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80">
+          <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80" alt="Keychain Animals" />
+          <div class="product-info">
+            <div class="product-row">
+              <h3>Keychain Animals</h3>
+              <span class="price">$16</span>
+            </div>
+            <p>Small animal keychains made for gifts, backpacks, and everyday carry.</p>
+            <a class="shop-btn" href="product.html?product=handmade-animals">View item</a>
+            <a class="shop-btn" href="cart.html" style="margin-left: 10px; background: var(--sunset-orange);" data-add-to-cart> Add to cart </a>
+          </div>
+        </article>
+
+        <article class="product-card" data-id="backpack-accessory-animals" data-name="Backpack Accessory Animals" data-price="20" data-image="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=900&q=80">
+          <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=900&q=80" alt="Backpack Accessory Animals" />
+          <div class="product-info">
+            <div class="product-row">
+              <h3>Backpack Accessory Animals</h3>
+              <span class="price">$20</span>
+            </div>
+            <p>Charm-filled crochet animal accessories that add personality to backpacks.</p>
+            <a class="shop-btn" href="product.html?product=handmade-animals">View item</a>
+            <a class="shop-btn" href="cart.html" style="margin-left: 10px; background: var(--sunset-orange);" data-add-to-cart> Add to cart </a>
+          </div>
+        </article>
+
+        <article class="product-card" data-id="cup-sleeves" data-name="Cup Sleeves" data-price="12" data-image="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=80">
+          <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=80" alt="Cup Sleeves" />
+          <div class="product-info">
+            <div class="product-row">
+              <h3>Cup Sleeves</h3>
+              <span class="price">$12</span>
+            </div>
+            <p>Cozy crochet sleeves made to keep drinks comfortable and colorful.</p>
+            <a class="shop-btn" href="product.html?product=snowflake-coasters">View item</a>
+            <a class="shop-btn" href="cart.html" style="margin-left: 10px; background: var(--sunset-orange);" data-add-to-cart> Add to cart </a>
+          </div>
+        </article>
+
+        <article class="product-card" data-id="pokemon-toboggans" data-name="Pokemon Toboggans" data-price="32" data-image="https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=900&q=80">
+          <img src="https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=900&q=80" alt="Pokemon Toboggans" />
+          <div class="product-info">
+            <div class="product-row">
+              <h3>Pokemon Toboggans</h3>
+              <span class="price">$32</span>
+            </div>
+            <p>Fun themed crochet toboggans inspired by favorite Pokémon characters.</p>
+            <a class="shop-btn" href="product.html?product=handmade-animals">View item</a>
+            <a class="shop-btn" href="cart.html" style="margin-left: 10px; background: var(--sunset-orange);" data-add-to-cart> Add to cart </a>
+          </div>
+        </article>
+
+        <article class="product-card" data-id="crochet-hair-scrunchies" data-name="Crochet Hair Scrunchies" data-price="10" data-image="https://images.unsplash.com/photo-1521590832167-7e8d5a0f9d7d?auto=format&fit=crop&w=900&q=80">
+          <img src="https://images.unsplash.com/photo-1521590832167-7e8d5a0f9d7d?auto=format&fit=crop&w=900&q=80" alt="Crochet Hair Scrunchies" />
+          <div class="product-info">
+            <div class="product-row">
+              <h3>Crochet Hair Scrunchies</h3>
+              <span class="price">$10</span>
+            </div>
+            <p>Soft handmade scrunchies that add bright texture and style to hair.</p>
+            <a class="shop-btn" href="product.html?product=handmade-animals">View item</a>
+            <a class="shop-btn" href="cart.html" style="margin-left: 10px; background: var(--sunset-orange);" data-add-to-cart> Add to cart </a>
+          </div>
+        </article>
+
+        <article class="product-card" data-id="crocheted-ornaments" data-name="Crocheted Ornaments" data-price="15" data-image="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=80">
+          <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=80" alt="Crocheted Ornaments" />
+          <div class="product-info">
+            <div class="product-row">
+              <h3>Crocheted Ornaments</h3>
+              <span class="price">$15</span>
+            </div>
+            <p>Handmade ornaments that make holiday decorating extra special and personal.</p>
+            <a class="shop-btn" href="product.html?product=snowflake-coasters">View item</a>
+            <a class="shop-btn" href="cart.html" style="margin-left: 10px; background: var(--sunset-orange);" data-add-to-cart> Add to cart </a>
+          </div>
+        </article>
+
+        <article class="product-card" data-id="towel-holders" data-name="Towel Holders" data-price="14" data-image="https://images.unsplash.com/photo-1528747045269-390fe33c19f2?auto=format&fit=crop&w=900&q=80">
+          <img src="https://images.unsplash.com/photo-1528747045269-390fe33c19f2?auto=format&fit=crop&w=900&q=80" alt="Towel Holders" />
+          <div class="product-info">
+            <div class="product-row">
+              <h3>Towel Holders</h3>
+              <span class="price">$14</span>
+            </div>
+            <p>Useful, colorful towel holders that bring charm to a bathroom or kitchen.</p>
+            <a class="shop-btn" href="product.html?product=handmade-animals">View item</a>
+            <a class="shop-btn" href="cart.html" style="margin-left: 10px; background: var(--sunset-orange);" data-add-to-cart> Add to cart </a>
+          </div>
+        </article>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">© 2026 Crochet Creations • Handmade with heart</div>
+    </footer>
+
+    <div class="floating-cart-panel" id="floating-cart-panel">
+      <div class="floating-cart-header">
+        <span>Your cart</span>
+        <button type="button" class="floating-cart-close" id="close-cart-panel" aria-label="Close cart">×</button>
+      </div>
+      <div id="floating-cart-items"></div>
+      <div class="floating-cart-footer">
+        <span class="floating-cart-total" id="floating-cart-total">$0</span>
+        <a href="cart.html" class="floating-cart-go">View cart</a>
+      </div>
+    </div>
+
+    <button type="button" class="floating-cart" id="floating-cart-trigger" aria-label="Cart">
+      <span class="floating-cart-icon">🛒</span>
+      <span class="floating-cart-count" id="floating-cart-count">0</span>
+    </button>
+
+    <script>
+      function getCart() {
+        try {
+          return JSON.parse(localStorage.getItem('crochetCart')) || [];
+        } catch (error) {
+          return [];
+        }
+      }
+
+      function saveCart(cart) {
+        localStorage.setItem('crochetCart', JSON.stringify(cart));
+      }
+
+      function updateCartCount() {
+        const cart = getCart();
+        const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const cartCount = document.getElementById('cart-count');
+        const floatingCartCount = document.getElementById('floating-cart-count');
+        const panelItems = document.getElementById('floating-cart-items');
+        const panelTotal = document.getElementById('floating-cart-total');
+
+        if (cartCount) cartCount.textContent = total;
+        if (floatingCartCount) floatingCartCount.textContent = total;
+
+        if (!panelItems || !panelTotal) return;
+
+        if (!cart.length) {
+          panelItems.innerHTML = '<p class="floating-cart-empty">Your cart is empty.</p>';
+          panelTotal.textContent = '$0';
+          return;
+        }
+
+        const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        panelItems.innerHTML = cart.map(item => `
+          <div class="floating-cart-item">
+            <div>
+              <div>${item.name}</div>
+              <small>Qty: ${item.quantity}</small>
+            </div>
+            <strong>$${item.price * item.quantity}</strong>
+          </div>
+        `).join('');
+        panelTotal.textContent = `$${subtotal}`;
+      }
+
+      document.querySelectorAll('[data-add-to-cart]').forEach(button => {
+        button.addEventListener('click', (event) => {
+          event.preventDefault();
+          const card = button.closest('.product-card');
+          const product = {
+            id: card.dataset.id,
+            name: card.dataset.name,
+            price: Number(card.dataset.price),
+            image: card.dataset.image,
+            quantity: 1
+          };
+
+          const cart = getCart();
+          const existing = cart.find(item => item.id === product.id);
+
+          if (existing) {
+            existing.quantity += 1;
+          } else {
+            cart.push(product);
+          }
+
+          saveCart(cart);
+          updateCartCount();
+          const floatingCartPanel = document.getElementById('floating-cart-panel');
+          if (floatingCartPanel) floatingCartPanel.classList.add('visible');
+        });
+      });
+
+      const floatingCartTrigger = document.getElementById('floating-cart-trigger');
+      const floatingCartPanel = document.getElementById('floating-cart-panel');
+      const closeCartPanel = document.getElementById('close-cart-panel');
+
+      floatingCartTrigger.addEventListener('click', () => {
+        floatingCartPanel.classList.toggle('visible');
+      });
+
+      closeCartPanel.addEventListener('click', () => {
+        floatingCartPanel.classList.remove('visible');
+      });
+
+      document.addEventListener('click', event => {
+        if (!floatingCartPanel.contains(event.target) && !floatingCartTrigger.contains(event.target)) {
+          floatingCartPanel.classList.remove('visible');
+        }
+      });
+
+      updateCartCount();
+    </script>
+  </body>
+</html>

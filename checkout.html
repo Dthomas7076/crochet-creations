@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout | Crochet Creations</title>
+    <style>
+      :root {
+        --sunset-orange: #f39a6b;
+        --sunset-orange-deep: #e8774d;
+        --blue: #5d8bb4;
+        --blue-deep: #3d6d99;
+        --beige: #f4e7d3;
+        --beige-deep: #ddd0b8;
+        --text-dark: #2d2a2a;
+        --white: #ffffff;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(180deg, var(--beige) 0%, #f8f2ea 100%);
+        color: var(--text-dark);
+      }
+
+      a { text-decoration: none; color: inherit; }
+
+      .container {
+        width: min(1100px, 90%);
+        margin: 0 auto;
+      }
+
+      header {
+        background: rgba(255, 255, 255, 0.45);
+        border-bottom: 1px solid rgba(93, 139, 180, 0.2);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        color: var(--blue-deep);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 28px;
+        font-weight: 600;
+      }
+
+      .checkout-page {
+        padding: 60px 0 80px;
+      }
+
+      .checkout-layout {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 28px;
+      }
+
+      .checkout-card,
+      .summary-box {
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(93, 139, 180, 0.12);
+        border-radius: 24px;
+        padding: 28px;
+        box-shadow: 0 12px 30px rgba(61, 109, 153, 0.08);
+      }
+
+      .checkout-card h1,
+      .summary-box h2 {
+        margin-top: 0;
+        color: var(--blue-deep);
+      }
+
+      .form-grid {
+        display: grid;
+        gap: 18px;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .field label {
+        font-weight: 700;
+        color: var(--blue-deep);
+      }
+
+      .field input,
+      .field textarea,
+      .field select {
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: 1px solid rgba(93, 139, 180, 0.2);
+        background: #fffaf6;
+        font: inherit;
+      }
+
+      .field textarea {
+        min-height: 110px;
+        resize: vertical;
+      }
+
+      .row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .payment-options {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .payment-options label {
+        background: rgba(244, 231, 211, 0.7);
+        border-radius: 999px;
+        padding: 10px 16px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .payment-box {
+        margin-top: 10px;
+      }
+
+      .summary-box {
+        align-self: start;
+      }
+
+      .summary-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 14px;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(93, 139, 180, 0.15);
+      }
+
+      .item-name {
+        font-weight: 700;
+      }
+
+      .item-meta {
+        font-size: 0.85rem;
+        color: rgba(45, 42, 42, 0.7);
+      }
+
+      .total-row {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 16px;
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: var(--blue-deep);
+      }
+
+      .pay-btn {
+        width: 100%;
+        margin-top: 22px;
+        border: none;
+        border-radius: 14px;
+        background: linear-gradient(135deg, var(--sunset-orange), var(--sunset-orange-deep));
+        color: var(--white);
+        padding: 16px 20px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      @media (max-width: 800px) {
+        nav {
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .checkout-layout,
+        .row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <nav>
+          <div class="logo">CROCHET CREATIONS</div>
+          <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="cart.html">Cart</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container checkout-page">
+      <div class="checkout-layout">
+        <section class="checkout-card">
+          <h1>Checkout</h1>
+
+          <form class="form-grid">
+            <div class="row">
+              <div class="field">
+                <label for="first-name">First name</label>
+                <input id="first-name" type="text" placeholder="Your first name" />
+              </div>
+              <div class="field">
+                <label for="last-name">Last name</label>
+                <input id="last-name" type="text" placeholder="Your last name" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" type="email" placeholder="you@example.com" />
+              </div>
+              <div class="field">
+                <label for="phone">Phone</label>
+                <input id="phone" type="tel" placeholder="336-909-4268" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="address">Shipping address</label>
+              <input id="address" type="text" placeholder="Street address" />
+            </div>
+
+            <div class="row">
+              <div class="field">
+                <label for="city">City</label>
+                <input id="city" type="text" placeholder="City" />
+              </div>
+              <div class="field">
+                <label for="state">State</label>
+                <input id="state" type="text" placeholder="State" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Payment method</label>
+              <div class="payment-options">
+                <label><input type="radio" name="payment" value="card" checked /> Card</label>
+                <label><input type="radio" name="payment" value="paypal" /> PayPal</label>
+              </div>
+            </div>
+
+            <div class="payment-box" id="card-box">
+              <div class="row">
+                <div class="field" style="grid-column: 1 / -1;">
+                  <label for="card-number">Card number</label>
+                  <input id="card-number" type="text" placeholder="1234 5678 9012 3456" />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="field">
+                  <label for="expiry">Expiration</label>
+                  <input id="expiry" type="text" placeholder="MM/YY" />
+                </div>
+                <div class="field">
+                  <label for="cvc">CVC</label>
+                  <input id="cvc" type="text" placeholder="123" />
+                </div>
+              </div>
+            </div>
+
+            <div class="payment-box" id="paypal-box" style="display: none;">
+              <div class="field">
+                <label for="paypal-email">PayPal email</label>
+                <input id="paypal-email" type="email" placeholder="you@example.com" />
+              </div>
+            </div>
+          </form>
+        </section>
+
+        <aside class="summary-box">
+          <h2>Order Summary</h2>
+          <div id="checkout-items"></div>
+          <div class="total-row">
+            <span>Total</span>
+            <span id="checkout-total">$0</span>
+          </div>
+          <button class="pay-btn" type="button" id="pay-button">Pay Now</button>
+        </aside>
+      </div>
+    </main>
+
+    <script>
+      function getCart() {
+        try {
+          return JSON.parse(localStorage.getItem('crochetCart')) || [];
+        } catch (error) {
+          return [];
+        }
+      }
+
+      function renderSummary() {
+        const cart = getCart();
+        const container = document.getElementById('checkout-items');
+        const totalEl = document.getElementById('checkout-total');
+
+        if (!cart.length) {
+          container.innerHTML = '<p>Your cart is empty.</p>';
+          totalEl.textContent = '$0';
+          return;
+        }
+
+        const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+        container.innerHTML = cart.map(item => `
+          <div class="summary-item">
+            <div>
+              <div class="item-name">${item.name}</div>
+              <div class="item-meta">Qty: ${item.quantity}</div>
+            </div>
+            <strong>$${item.price * item.quantity}</strong>
+          </div>
+        `).join('');
+
+        totalEl.textContent = `$${total}`;
+      }
+
+      document.querySelectorAll('input[name="payment"]').forEach(radio => {
+        radio.addEventListener('change', event => {
+          const value = event.target.value;
+          document.getElementById('card-box').style.display = value === 'card' ? 'block' : 'none';
+          document.getElementById('paypal-box').style.display = value === 'paypal' ? 'block' : 'none';
+        });
+      });
+
+      document.getElementById('pay-button').addEventListener('click', () => {
+        const selected = document.querySelector('input[name="payment"]:checked').value;
+        alert(`Payment selected: ${selected === 'card' ? 'Card' : 'PayPal'}. Connect this button to Stripe or PayPal to process real payments.`);
+      });
+
+      renderSummary();
+    </script>
+  </body>
+</html>

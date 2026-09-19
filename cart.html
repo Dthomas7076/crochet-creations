@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cart | Crochet Creations</title>
+    <style>
+      :root {
+        --sunset-orange: #f39a6b;
+        --sunset-orange-deep: #e8774d;
+        --blue: #5d8bb4;
+        --blue-deep: #3d6d99;
+        --beige: #f4e7d3;
+        --beige-deep: #ddd0b8;
+        --text-dark: #2d2a2a;
+        --white: #ffffff;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(180deg, var(--beige) 0%, #f8f2ea 100%);
+        color: var(--text-dark);
+      }
+
+      a { text-decoration: none; color: inherit; }
+
+      .container {
+        width: min(1100px, 90%);
+        margin: 0 auto;
+      }
+
+      header {
+        background: rgba(255, 255, 255, 0.45);
+        border-bottom: 1px solid rgba(93, 139, 180, 0.2);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        color: var(--blue-deep);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 28px;
+        font-weight: 600;
+      }
+
+      .cta {
+        background: var(--sunset-orange);
+        color: var(--white);
+        padding: 12px 24px;
+        border-radius: 999px;
+        font-weight: 700;
+      }
+
+      .cart-page {
+        padding: 60px 0 80px;
+      }
+
+      .page-header {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+
+      .page-header h1 {
+        margin: 0 0 8px;
+        color: var(--blue-deep);
+        font-size: clamp(2.4rem, 4vw, 3.4rem);
+      }
+
+      .page-header p {
+        margin: 0;
+        color: rgba(45, 42, 42, 0.75);
+      }
+
+      .cart-layout {
+        display: grid;
+        grid-template-columns: 1.5fr 0.9fr;
+        gap: 28px;
+      }
+
+      .cart-list,
+      .summary-box {
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(93, 139, 180, 0.12);
+        border-radius: 24px;
+        padding: 24px;
+        box-shadow: 0 12px 30px rgba(61, 109, 153, 0.08);
+      }
+
+      .cart-item {
+        display: grid;
+        grid-template-columns: 90px 1fr auto;
+        gap: 18px;
+        align-items: center;
+        padding: 14px 0;
+        border-bottom: 1px solid rgba(93, 139, 180, 0.14);
+      }
+
+      .cart-item:last-child {
+        border-bottom: none;
+      }
+
+      .cart-item img {
+        width: 90px;
+        height: 90px;
+        object-fit: cover;
+        border-radius: 16px;
+      }
+
+      .cart-item h3 {
+        margin: 0 0 6px;
+        color: var(--blue-deep);
+      }
+
+      .cart-item p {
+        margin: 0;
+        color: rgba(45, 42, 42, 0.7);
+      }
+
+      .qty-controls {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid rgba(93, 139, 180, 0.2);
+        background: rgba(243, 154, 107, 0.08);
+        border-radius: 999px;
+        overflow: hidden;
+        margin-top: 8px;
+      }
+
+      .qty-btn {
+        border: none;
+        background: transparent;
+        color: var(--blue-deep);
+        font-size: 1.2rem;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+        font-weight: 700;
+      }
+
+      .qty-value {
+        min-width: 32px;
+        text-align: center;
+        font-weight: 700;
+        color: var(--text-dark);
+      }
+
+      .cart-price {
+        font-weight: 800;
+        color: var(--sunset-orange-deep);
+      }
+
+      .summary-box h2 {
+        margin-top: 0;
+        color: var(--blue-deep);
+      }
+
+      .total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-top: 18px;
+      }
+
+      .checkout-btn {
+        display: block;
+        width: 100%;
+        margin-top: 22px;
+        background: linear-gradient(135deg, var(--sunset-orange), var(--sunset-orange-deep));
+        color: var(--white);
+        border: none;
+        border-radius: 14px;
+        padding: 16px 20px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .continue-btn {
+        display: inline-block;
+        margin-top: 18px;
+        color: var(--blue-deep);
+        font-weight: 700;
+      }
+
+      @media (max-width: 800px) {
+        nav {
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .cart-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <nav>
+          <div class="logo">CROCHET CREATIONS</div>
+          <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="index.html#contact">Contact</a>
+          </div>
+          <a href="shop.html" class="cta">Keep Shopping</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container cart-page">
+      <div class="page-header">
+        <h1>Your Cart</h1>
+        <p>Review your handmade pieces before checkout.</p>
+      </div>
+
+      <div class="cart-layout">
+        <section class="cart-list" id="cart-items"></section>
+
+        <aside class="summary-box">
+          <h2>Order Summary</h2>
+          <div class="total-row">
+            <span>Total</span>
+            <span id="cart-total">$0</span>
+          </div>
+          <a href="checkout.html" class="checkout-btn">Proceed to Checkout</a>
+          <a class="continue-btn" href="shop.html">Continue shopping</a>
+        </aside>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">© 2026 Crochet Creations • Handmade with heart</div>
+    </footer>
+
+    <script>
+      function getCart() {
+        try {
+          return JSON.parse(localStorage.getItem('crochetCart')) || [];
+        } catch (error) {
+          return [];
+        }
+      }
+
+      function saveCart(cart) {
+        localStorage.setItem('crochetCart', JSON.stringify(cart));
+      }
+
+      function syncCartCount() {
+        const cart = getCart();
+        const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const cartCount = document.getElementById('cart-count');
+        if (cartCount) cartCount.textContent = total;
+      }
+
+      function renderCart() {
+        const cart = getCart();
+        const cartItems = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+
+        if (!cart.length) {
+          cartItems.innerHTML = '<p>Your cart is empty. Add a handmade item to get started.</p>';
+          cartTotal.textContent = '$0';
+          syncCartCount();
+          return;
+        }
+
+        const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+        cartItems.innerHTML = cart.map(item => `
+          <div class="cart-item">
+            <img src="${item.image}" alt="${item.name}" />
+            <div>
+              <h3>${item.name}</h3>
+              <div class="qty-controls">
+                <button class="qty-btn" type="button" data-id="${item.id}" data-action="decrease">−</button>
+                <span class="qty-value">${item.quantity}</span>
+                <button class="qty-btn" type="button" data-id="${item.id}" data-action="increase">+</button>
+              </div>
+            </div>
+            <div class="cart-price">$${item.price * item.quantity}</div>
+          </div>
+        `).join('');
+
+        cartTotal.textContent = `$${total}`;
+        syncCartCount();
+
+        document.querySelectorAll('.qty-btn').forEach(button => {
+          button.addEventListener('click', () => {
+            const cart = getCart();
+            const item = cart.find(entry => entry.id === button.dataset.id);
+            if (!item) return;
+
+            if (button.dataset.action === 'increase') {
+              item.quantity += 1;
+            } else {
+              item.quantity -= 1;
+            }
+
+            const filteredCart = cart.filter(entry => entry.quantity > 0);
+            saveCart(filteredCart);
+            renderCart();
+          });
+        });
+      }
+
+      renderCart();
+    </script>
+  </body>
+</html>
